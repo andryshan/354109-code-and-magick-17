@@ -19,9 +19,9 @@ var EDGE_GAP = 40;
 
 var RANDOM_NUMBERS_SATURATE = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
 
-var renderCloud = function (ctx, x, y, color) {
+var renderCloud = function (ctx, x, y, width, height, color) {
   ctx.fillStyle = color;
-  ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+  ctx.fillRect(x, y, width, height);
 };
 
 var getMaxElement = function (array) {
@@ -34,9 +34,11 @@ var getMaxElement = function (array) {
   return maxElement;
 };
 
+/*
 var renderBars = function (ctx, width, height, x, y) {
   ctx.fillRect(width, height, x, y);
 };
+*/
 
 var renderTextStats = function (ctx, text, x, y) {
   ctx.fillText(text, x, y);
@@ -47,8 +49,8 @@ var makeRandomSaturate = function (array) {
 };
 
 window.renderStatistics = function (ctx, names, times) {
-  renderCloud(ctx, CLOUD_X + CLOUD_GAP, CLOUD_Y + CLOUD_GAP, 'rgba(0, 0, 0, 0.7)');
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#ffffff');
+  renderCloud(ctx, CLOUD_X + CLOUD_GAP, CLOUD_Y + CLOUD_GAP, CLOUD_WIDTH, CLOUD_HEIGHT, 'rgba(0, 0, 0, 0.7)');
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_WIDTH, CLOUD_HEIGHT, '#ffffff');
   ctx.fillStyle = '#000000';
   ctx.font = '16px PT Mono';
   ctx.textBaseline = 'hanging';
@@ -63,9 +65,16 @@ window.renderStatistics = function (ctx, names, times) {
     } else {
       ctx.fillStyle = 'hsla(240, 100%, 50%, ' + makeRandomSaturate(RANDOM_NUMBERS_SATURATE) + ')';
     }
-    renderBars(ctx, CLOUD_X + EDGE_GAP + ((BAR_WIDTH + BAR_GAP_X) * i), CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT - ((BAR_HEIGHT * parseInt(times[i], 10)) / maxTime), BAR_WIDTH, (BAR_HEIGHT * parseInt(times[i], 10)) / maxTime);
+    renderCloud(ctx, CLOUD_X + EDGE_GAP + ((BAR_WIDTH + BAR_GAP_X) * i), CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT - ((BAR_HEIGHT * parseInt(times[i], 10)) / maxTime), BAR_WIDTH, (BAR_HEIGHT * parseInt(times[i], 10)) / maxTime);
     ctx.fillStyle = '#000000';
     renderTextStats(ctx, names[i], CLOUD_X + EDGE_GAP + ((BAR_WIDTH + BAR_GAP_X) * i), CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT_MAX + CLOUD_GAP);
     renderTextStats(ctx, parseInt(times[i], 10), CLOUD_X + EDGE_GAP + ((BAR_WIDTH + BAR_GAP_X) * i), CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT - ((BAR_HEIGHT * parseInt(times[i], 10)) / maxTime) - TIME_HEIGHT);
+    /*
+    var proportionBar = BAR_HEIGHT * parseInt(times[i], 10) / maxTime;
+    renderBars(ctx, CLOUD_X + EDGE_GAP + ((BAR_WIDTH + BAR_GAP_X) * i), CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT - proportionBar, BAR_WIDTH, proportionBar);
+    ctx.fillStyle = '#000000';
+    renderTextStats(ctx, names[i], CLOUD_X + EDGE_GAP + ((BAR_WIDTH + BAR_GAP_X) * i), CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT_MAX + CLOUD_GAP);
+    renderTextStats(ctx, parseInt(times[i], 10), CLOUD_X + EDGE_GAP + ((BAR_WIDTH + BAR_GAP_X) * i), CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT - proportionBar - TIME_HEIGHT);
+    */
   }
 };
