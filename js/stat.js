@@ -28,7 +28,8 @@ var getMaxElement = function (array) {
   return maxElement;
 };
 
-var renderTextStats = function (ctx, text, x, y) {
+var renderTextStats = function (ctx, text, x, y, color) {
+  ctx.fillStyle = color;
   ctx.fillText(text, x, y);
 };
 
@@ -36,37 +37,37 @@ var getRandomItemFrom = function (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-var renderSquares = function (ctx, x, y, width, height) {
+var renderSquares = function (ctx, x, y, width, height, color) {
+  ctx.fillStyle = color;
   ctx.fillRect(x, y, width, height);
 };
 
-var renderColor = function (ctx, color) {
-  ctx.fillStyle = color;
+var renderColorBar = function (playerName) {
+  var colorBar;
+  if (playerName === 'Вы') {
+    colorBar = 'red';
+  } else {
+    colorBar = 'hsla(240, 100%, 50%, ' + getRandomItemFrom(RANDOM_NUMBERS_SATURATE) + ')';
+  }
+  return colorBar;
 };
 
 window.renderStatistics = function (ctx, names, times) {
-  renderColor(ctx, 'rgba(0, 0, 0, 0.7)');
-  renderSquares(ctx, CLOUD_X + CLOUD_GAP, CLOUD_Y + CLOUD_GAP, CLOUD_WIDTH, CLOUD_HEIGHT);
-  renderColor(ctx, '#ffffff');
-  renderSquares(ctx, CLOUD_X, CLOUD_Y, CLOUD_WIDTH, CLOUD_HEIGHT);
-  renderColor(ctx, '#000000');
+  renderSquares(ctx, CLOUD_X + CLOUD_GAP, CLOUD_Y + CLOUD_GAP, CLOUD_WIDTH, CLOUD_HEIGHT, 'rgba(0, 0, 0, 0.7)');
+  renderSquares(ctx, CLOUD_X, CLOUD_Y, CLOUD_WIDTH, CLOUD_HEIGHT, '#ffffff');
+  ctx.fillStyle = '#000000';
   ctx.font = '16px PT Mono';
   ctx.textBaseline = 'hanging';
   renderTextStats(ctx, 'Ура вы победили!', PARAGRAPH_X, PARAGRAPH_Y);
   renderTextStats(ctx, 'Список результатов:', PARAGRAPH_X, PARAGRAPH_Y + PARAGRAPH_GAP_Y);
 
   var maxTime = getMaxElement(times);
+
   for (var i = 0; i < names.length; i++) {
-    if (names[i] === 'Вы') {
-      ctx.fillStyle = 'red';
-    } else {
-      ctx.fillStyle = 'hsla(240, 100%, 50%, ' + getRandomItemFrom(RANDOM_NUMBERS_SATURATE) + ')';
-    }
     var proportionBar = BAR_HEIGHT * parseInt(times[i], 10) / maxTime;
     var leftIndent = CLOUD_X + EDGE_GAP + ((BAR_WIDTH + BAR_GAP_X) * i);
-    renderSquares(ctx, leftIndent, CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT - proportionBar, BAR_WIDTH, proportionBar);
-    ctx.fillStyle = '#000000';
-    renderTextStats(ctx, names[i], leftIndent, CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT_MAX + CLOUD_GAP);
-    renderTextStats(ctx, parseInt(times[i], 10), leftIndent, CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT - proportionBar - TIME_HEIGHT);
+    renderSquares(ctx, leftIndent, CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT - proportionBar, BAR_WIDTH, proportionBar, renderColorBar(names[i]));
+    renderTextStats(ctx, names[i], leftIndent, CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT_MAX + CLOUD_GAP, '#000000');
+    renderTextStats(ctx, parseInt(times[i], 10), leftIndent, CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT - proportionBar - TIME_HEIGHT, '#000000');
   }
 };
