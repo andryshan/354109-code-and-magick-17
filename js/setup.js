@@ -43,7 +43,7 @@ var renderWizard = function (wizard) {
   return wizardElement;
 };
 
-var addWizardsToFragment = function () {
+var addWizardsToSimilarList = function () {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < WIZARD_NUMBERS; i++) {
     fragment.appendChild(renderWizard(wizards[i]));
@@ -51,7 +51,7 @@ var addWizardsToFragment = function () {
   similarListElement.appendChild(fragment);
 };
 
-addWizardsToFragment();
+addWizardsToSimilarList();
 
 showBlock(similarBlock);
 
