@@ -43,17 +43,11 @@ var onFireballClick = function () {
   inputColorFireball.setAttribute('value', randomColor);
 };
 
-setupColorCoat.addEventListener('click', function () {
-  onCoatClick();
-});
+setupColorCoat.addEventListener('click', onCoatClick);
 
-setupColorEyes.addEventListener('click', function () {
-  onEyesClick();
-});
+setupColorEyes.addEventListener('click', onEyesClick);
 
-setupColorFireball.addEventListener('click', function () {
-  onFireballClick();
-});
+setupColorFireball.addEventListener('click', onFireballClick);
 
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
@@ -73,9 +67,7 @@ var closePopup = function () {
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
-setupOpen.addEventListener('click', function () {
-  openPopup();
-});
+setupOpen.addEventListener('click', openPopup);
 
 setupOpen.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
@@ -83,9 +75,7 @@ setupOpen.addEventListener('keydown', function (evt) {
   }
 });
 
-setupClose.addEventListener('click', function () {
-  closePopup();
-});
+setupClose.addEventListener('click', closePopup);
 
 setupClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
@@ -101,13 +91,9 @@ var onUsernameBlur = function () {
   document.addEventListener('keydown', onPopupEscPress);
 };
 
-setupUsername.addEventListener('focus', function () {
-  onUsernameFocus();
-});
+setupUsername.addEventListener('focus', onUsernameFocus);
 
-setupUsername.addEventListener('blur', function () {
-  onUsernameBlur();
-});
+setupUsername.addEventListener('blur', onUsernameBlur);
 
 var getRandomItem = function (array) {
   return array[Math.floor(Math.random() * array.length)];
