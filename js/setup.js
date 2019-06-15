@@ -25,34 +25,34 @@ var inputColorCoat = setup.querySelector('[name="coat-color"]');
 var inputColorEyes = setup.querySelector('[name="eyes-color"]');
 var inputColorFireball = setup.querySelector('[name="fireball-color"]');
 
-var changeColorCoat = function () {
+var onCoatClick = function () {
   var randomColor = getRandomItem(COAT_COLORS);
   setupColorCoat.style.fill = randomColor;
   inputColorCoat.setAttribute('value', randomColor);
 };
 
-var changeColorEyes = function () {
+var onEyesClick = function () {
   var randomColor = getRandomItem(EYES_COLORS);
   setupColorEyes.style.fill = randomColor;
   inputColorEyes.setAttribute('value', randomColor);
 };
 
-var changeColorFireball = function () {
+var onFireballClick = function () {
   var randomColor = getRandomItem(FIREBALL_COLORS);
   setupColorFireball.style.backgroundColor = randomColor;
   inputColorFireball.setAttribute('value', randomColor);
 };
 
 setupColorCoat.addEventListener('click', function () {
-  changeColorCoat();
+  onCoatClick();
 });
 
 setupColorEyes.addEventListener('click', function () {
-  changeColorEyes();
+  onEyesClick();
 });
 
 setupColorFireball.addEventListener('click', function () {
-  changeColorFireball();
+  onFireballClick();
 });
 
 var onPopupEscPress = function (evt) {
@@ -69,6 +69,7 @@ var openPopup = function () {
 
 var closePopup = function () {
   setup.classList.add('hidden');
+  similarBlock.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
