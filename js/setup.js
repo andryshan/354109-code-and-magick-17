@@ -25,22 +25,26 @@ var inputColorCoat = setup.querySelector('[name="coat-color"]');
 var inputColorEyes = setup.querySelector('[name="eyes-color"]');
 var inputColorFireball = setup.querySelector('[name="fireball-color"]');
 
-var setColorToElementOfMage = function (colors, partOfWizard, inputOfWizard, property) {
-  var randomColor = getRandomItem(colors);
-  partOfWizard.style[property] = randomColor;
-  inputOfWizard.setAttribute('value', randomColor);
+var setFillToElementOfMage = function (color, partOfWizard, inputOfWizard) {
+  partOfWizard.style.fill = color;
+  inputOfWizard.value = color;
+};
+
+var setColorToElementOfMage = function (color, partOfWizard, inputOfWizard) {
+  partOfWizard.style.backgroundColor = color;
+  inputOfWizard.value = color;
 };
 
 var onCoatClick = function () {
-  setColorToElementOfMage(COAT_COLORS, setupWizardCoat, inputColorCoat, 'fill');
+  setFillToElementOfMage(getRandomItem(COAT_COLORS), setupWizardCoat, inputColorCoat);
 };
 
 var onEyesClick = function () {
-  setColorToElementOfMage(EYES_COLORS, setupWizardEyes, inputColorEyes, 'fill');
+  setFillToElementOfMage(getRandomItem(EYES_COLORS), setupWizardEyes, inputColorEyes);
 };
 
 var onFireballClick = function () {
-  setColorToElementOfMage(FIREBALL_COLORS, setupWizardFireball, inputColorFireball, 'backgroundColor');
+  setColorToElementOfMage(getRandomItem(FIREBALL_COLORS), setupWizardFireball, inputColorFireball);
 };
 
 setupWizardCoat.addEventListener('click', onCoatClick);
