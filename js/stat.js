@@ -33,7 +33,7 @@ var renderTextStats = function (ctx, text, x, y, color) {
   ctx.fillText(text, x, y);
 };
 
-var getRandomItemFrom = function (array) {
+var getRandomItem = function (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
@@ -47,7 +47,7 @@ var renderColorBar = function (playerName) {
   if (playerName === 'Вы') {
     colorBar = 'red';
   } else {
-    colorBar = 'hsla(240, 100%, 50%, ' + getRandomItemFrom(RANDOM_NUMBERS_SATURATE) + ')';
+    colorBar = 'hsla(240, 100%, 50%, ' + getRandomItem(RANDOM_NUMBERS_SATURATE) + ')';
   }
   return colorBar;
 };
@@ -71,3 +71,4 @@ window.renderStatistics = function (ctx, names, times) {
     renderTextStats(ctx, parseInt(times[i], 10), leftIndent, CLOUD_Y + BAR_GAP_Y + BAR_HEIGHT - proportionBar - TIME_HEIGHT, '#000000');
   }
 };
+
