@@ -1,10 +1,10 @@
 'use strict';
 var setup = document.querySelector('.setup');
-var dialogHandler = document.querySelector('.upload');
+var uploadImageBlock = document.querySelector('.upload');
 
 var onUploadInputClick = function (evt) {
   evt.preventDefault();
-  var startCoords = {
+  var startСoordinates = {
     x: evt.clientX,
     y: evt.clientY
   };
@@ -15,11 +15,11 @@ var onUploadInputClick = function (evt) {
     moveEvt.preventDefault();
     dragged = true;
     var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
+      x: startСoordinates.x - moveEvt.clientX,
+      y: startСoordinates.y - moveEvt.clientY
     };
 
-    startCoords = {
+    startСoordinates = {
       x: moveEvt.clientX,
       y: moveEvt.clientY
     };
@@ -33,11 +33,11 @@ var onUploadInputClick = function (evt) {
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
     if (dragged) {
-      var onClickPreventDefault = function (clickEvt) {
+      var onUploadImageClick = function (clickEvt) {
         clickEvt.preventDefault();
-        dialogHandler.removeEventListener('click', onClickPreventDefault);
+        uploadImageBlock.removeEventListener('click', onUploadImageClick);
       };
-      dialogHandler.addEventListener('click', onClickPreventDefault);
+      uploadImageBlock.addEventListener('click', onUploadImageClick);
     }
   };
 
@@ -45,15 +45,15 @@ var onUploadInputClick = function (evt) {
   document.addEventListener('mouseup', onMouseUp);
 };
 
-dialogHandler.addEventListener('mousedown', onUploadInputClick);
+uploadImageBlock.addEventListener('mousedown', onUploadInputClick);
 
-var artifactHandler = document.querySelectorAll('.setup-artifacts-cell img');
+var artifactsImages = document.querySelectorAll('.setup-artifacts-cell img');
 
 // изолирующая функция, чтобы не было потери окружения и могли брать несколько артефактов
 var addDragAndDropListener = function (artifact) {
   artifact.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-    var startCoords = {
+    var startСoordinates = {
       x: evt.clientX,
       y: evt.clientY
     };
@@ -62,11 +62,11 @@ var addDragAndDropListener = function (artifact) {
       moveEvt.preventDefault();
 
       var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+        x: startСoordinates.x - moveEvt.clientX,
+        y: startСoordinates.y - moveEvt.clientY
       };
 
-      startCoords = {
+      startСoordinates = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
@@ -87,8 +87,8 @@ var addDragAndDropListener = function (artifact) {
   });
 };
 
-for (var i = 0; i < artifactHandler.length; i++) {
-  var artifact = artifactHandler[i];
+for (var i = 0; i < artifactsImages.length; i++) {
+  var artifact = artifactsImages[i];
   addDragAndDropListener(artifact);
 }
 
