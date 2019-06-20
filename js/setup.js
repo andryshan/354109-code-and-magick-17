@@ -7,6 +7,8 @@ var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 var WIZARD_NUMBERS = 4;
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
+var DIALOG_SETUP_Y = '80px';
+var DIALOG_SETUP_X = '50%';
 
 var similarBlock = document.querySelector('.setup-similar');
 var similarListElement = document.querySelector('.setup-similar-list');
@@ -69,6 +71,8 @@ var closePopup = function () {
   setup.classList.add('hidden');
   similarBlock.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
+  setup.style.left = DIALOG_SETUP_X;
+  setup.style.top = DIALOG_SETUP_Y;
 };
 
 setupOpen.addEventListener('click', function () {
