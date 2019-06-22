@@ -44,7 +44,7 @@
     if (playerName === 'Вы') {
       colorBar = 'red';
     } else {
-      colorBar = 'hsla(240, 100%, 50%, ' + window.getRandomItem(RANDOM_NUMBERS_SATURATE) + ')';
+      colorBar = 'hsla(240, 100%, 50%, ' + window.utils.getRandomItem(RANDOM_NUMBERS_SATURATE) + ')';
     }
     return colorBar;
   };

@@ -1,7 +1,62 @@
 'use strict';
 (function () {
+  var DIALOG_SETUP_Y = '80px';
+  var DIALOG_SETUP_X = '50%';
+
+  var similarBlock = document.querySelector('.setup-similar');
   var setup = document.querySelector('.setup');
+
+  var setupOpen = document.querySelector('.setup-open');
+  var setupClose = setup.querySelector('.setup-close');
+  var setupUsername = setup.querySelector('.setup-user-name');
+
   var uploadImageBlock = document.querySelector('.upload');
+
+  var onPopupEscPress = function (evt) {
+    window.utils.onEscPress(evt, closePopup);
+  };
+
+  var openPopup = function () {
+    setup.classList.remove('hidden');
+    similarBlock.classList.remove('hidden');
+    document.addEventListener('keydown', onPopupEscPress);
+  };
+
+  var closePopup = function () {
+    setup.classList.add('hidden');
+    similarBlock.classList.add('hidden');
+    document.removeEventListener('keydown', onPopupEscPress);
+    setup.style.left = DIALOG_SETUP_X;
+    setup.style.top = DIALOG_SETUP_Y;
+  };
+
+  setupOpen.addEventListener('click', function () {
+    openPopup();
+  });
+
+  setupOpen.addEventListener('keydown', function (evt) {
+    window.utils.onEnterPress(evt, openPopup);
+  });
+
+  setupClose.addEventListener('click', function () {
+    closePopup();
+  });
+
+  setupClose.addEventListener('keydown', function (evt) {
+    window.utils.onEnterPress(evt, closePopup);
+  });
+
+  var onUsernameFocus = function () {
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
+  var onUsernameBlur = function () {
+    document.addEventListener('keydown', onPopupEscPress);
+  };
+
+  setupUsername.addEventListener('focus', onUsernameFocus);
+
+  setupUsername.addEventListener('blur', onUsernameBlur);
 
   var onUploadInputClick = function (evt) {
     evt.preventDefault();
