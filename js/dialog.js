@@ -102,5 +102,9 @@
   };
 
   uploadImageBlock.addEventListener('mousedown', onUploadInputClick);
+
+  window.dialog = {
+    closePopup: closePopup
+  };
 })();
 
