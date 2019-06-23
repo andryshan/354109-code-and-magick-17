@@ -1,94 +1,106 @@
 'use strict';
-var setup = document.querySelector('.setup');
-var dialogHandler = document.querySelector('.upload');
+(function () {
+  var DIALOG_SETUP_Y = '80px';
+  var DIALOG_SETUP_X = '50%';
 
-var onUploadInputClick = function (evt) {
-  evt.preventDefault();
-  var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
+  var similarBlock = document.querySelector('.setup-similar');
+  var setup = document.querySelector('.setup');
+
+  var setupOpen = document.querySelector('.setup-open');
+  var setupClose = setup.querySelector('.setup-close');
+  var setupUsername = setup.querySelector('.setup-user-name');
+
+  var uploadImageBlock = document.querySelector('.upload');
+
+  var onPopupEscPress = function (evt) {
+    window.utils.onEscPress(evt, closePopup);
   };
 
-  var dragged = false;
-
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
-    dragged = true;
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
-    };
-
-    startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
-    };
-
-    setup.style.top = (setup.offsetTop - shift.y) + 'px';
-    setup.style.left = (setup.offsetLeft - shift.x) + 'px';
+  var openPopup = function () {
+    setup.classList.remove('hidden');
+    similarBlock.classList.remove('hidden');
+    document.addEventListener('keydown', onPopupEscPress);
   };
 
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-    if (dragged) {
-      var onClickPreventDefault = function (clickEvt) {
-        clickEvt.preventDefault();
-        dialogHandler.removeEventListener('click', onClickPreventDefault);
-      };
-      dialogHandler.addEventListener('click', onClickPreventDefault);
-    }
+  var closePopup = function () {
+    setup.classList.add('hidden');
+    similarBlock.classList.add('hidden');
+    document.removeEventListener('keydown', onPopupEscPress);
+    setup.style.left = DIALOG_SETUP_X;
+    setup.style.top = DIALOG_SETUP_Y;
   };
 
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-};
+  setupOpen.addEventListener('click', function () {
+    openPopup();
+  });
 
-dialogHandler.addEventListener('mousedown', onUploadInputClick);
+  setupOpen.addEventListener('keydown', function (evt) {
+    window.utils.onEnterPress(evt, openPopup);
+  });
 
-var artifactHandler = document.querySelectorAll('.setup-artifacts-cell img');
+  setupClose.addEventListener('click', function () {
+    closePopup();
+  });
 
-// изолирующая функция, чтобы не было потери окружения и могли брать несколько артефактов
-var addDragAndDropListener = function (artifact) {
-  artifact.addEventListener('mousedown', function (evt) {
+  setupClose.addEventListener('keydown', function (evt) {
+    window.utils.onEnterPress(evt, closePopup);
+  });
+
+  var onUsernameFocus = function () {
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
+  var onUsernameBlur = function () {
+    document.addEventListener('keydown', onPopupEscPress);
+  };
+
+  setupUsername.addEventListener('focus', onUsernameFocus);
+
+  setupUsername.addEventListener('blur', onUsernameBlur);
+
+  var onUploadInputClick = function (evt) {
     evt.preventDefault();
-    var startCoords = {
+    var startСoordinates = {
       x: evt.clientX,
       y: evt.clientY
     };
 
+    var dragged = false;
+
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-
+      dragged = true;
       var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+        x: startСoordinates.x - moveEvt.clientX,
+        y: startСoordinates.y - moveEvt.clientY
       };
 
-      startCoords = {
+      startСoordinates = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
 
-      artifact.style.top = (artifact.offsetTop - shift.y) + 'px';
-      artifact.style.left = (artifact.offsetLeft - shift.x) + 'px';
-      artifact.style.position = 'absolute';
+      setup.style.top = (setup.offsetTop - shift.y) + 'px';
+      setup.style.left = (setup.offsetLeft - shift.x) + 'px';
     };
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
+      if (dragged) {
+        var onUploadImageClick = function (clickEvt) {
+          clickEvt.preventDefault();
+          uploadImageBlock.removeEventListener('click', onUploadImageClick);
+        };
+        uploadImageBlock.addEventListener('click', onUploadImageClick);
+      }
     };
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-  });
-};
+  };
 
-for (var i = 0; i < artifactHandler.length; i++) {
-  var artifact = artifactHandler[i];
-  addDragAndDropListener(artifact);
-}
+  uploadImageBlock.addEventListener('mousedown', onUploadInputClick);
+})();
 
