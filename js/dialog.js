@@ -106,5 +106,6 @@
   window.dialog = {
     closePopup: closePopup
   };
+
 })();
 
