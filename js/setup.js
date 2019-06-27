@@ -3,8 +3,6 @@
   var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-  var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-  var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
   var WIZARD_NUMBERS = 4;
 
   var similarListElement = document.querySelector('.setup-similar-list');
@@ -48,34 +46,35 @@
 
   setupWizardFireball.addEventListener('click', onFireballClick);
 
-  var createWizards = function (quantity) {
-    var wizards = [];
-    for (var i = 0; i < quantity; i++) {
-      wizards[i] = {
-        name: window.utils.getRandomItem(WIZARD_NAMES) + ' ' + window.utils.getRandomItem(WIZARD_SURNAMES),
-        coatColor: window.utils.getRandomItem(COAT_COLORS),
-        eyesColor: window.utils.getRandomItem(EYES_COLORS)
-      };
-    }
-    return wizards;
-  };
-
   var renderWizard = function (wizard) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
     wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
     return wizardElement;
   };
 
   var addWizardsToSimilarList = function (wizards) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < wizards.length; i++) {
-      fragment.appendChild(renderWizard(wizards[i]));
+    for (var i = 0; i < WIZARD_NUMBERS; i++) {
+      fragment.appendChild(renderWizard(window.utils.getRandomItem(wizards)));
     }
     similarListElement.appendChild(fragment);
   };
 
-  addWizardsToSimilarList(createWizards(WIZARD_NUMBERS)); // Передаем в функцию массив wizards
+  window.backend.load(addWizardsToSimilarList, window.showError);
+
+  var form = document.querySelector('.setup-wizard-form');
+
+  var closeSuccessfulForm = function () {
+    setup.classList.add('hidden');
+  };
+
+  var onFormSubmit = function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(form), closeSuccessfulForm, window.showError);
+  };
+
+  form.addEventListener('submit', onFormSubmit);
 })();
 
