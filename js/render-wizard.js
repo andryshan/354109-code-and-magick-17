@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  // var WIZARD_NUMBERS = 4;
   var similarListElement = document.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
@@ -12,7 +11,7 @@
     return wizardElement;
   };
 
-  window.addWizardsToSimilarList = function (wizards) {
+  var addWizardsToSimilarList = function (wizards) {
     var fragment = document.createDocumentFragment();
     var takeNumber = wizards.length > 4 ? 4 : wizards.length;
     similarListElement.innerHTML = '';
@@ -22,5 +21,7 @@
     similarListElement.appendChild(fragment);
   };
 
-  // window.backend.load(addWizardsToSimilarList, window.showError);
+  window.renderWizard = {
+    addToList: addWizardsToSimilarList
+  };
 })();

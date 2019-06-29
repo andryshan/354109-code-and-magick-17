@@ -4,7 +4,7 @@
   var ENTER_KEYCODE = 13;
   var DEBOUNCE_INTERVAL = 500;
 
-  var lastTimeout;
+  // var lastTimeout;
 
   window.utils = {
     getRandomItem: function (array) {
@@ -24,10 +24,17 @@
     },
 
     debounce: function (callback) {
-      if (lastTimeout) {
-        window.clearTimeout(lastTimeout);
-      }
-      lastTimeout = window.setTimeout(callback, DEBOUNCE_INTERVAL);
+      var lastTimeout = null;
+
+      return function () {
+        var parameters = arguments;
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(function () {
+          callback.apply(null, parameters);
+        }, DEBOUNCE_INTERVAL);
+      };
     }
   };
 })();
