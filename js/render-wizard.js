@@ -17,7 +17,7 @@
     var takeNumber = wizards.length > 4 ? 4 : wizards.length;
     similarListElement.innerHTML = '';
     for (var i = 0; i < takeNumber; i++) {
-      fragment.appendChild(renderWizard(window.utils.getRandomItem(wizards)));
+      fragment.appendChild(renderWizard(wizards[i]));
     }
     similarListElement.appendChild(fragment);
   };

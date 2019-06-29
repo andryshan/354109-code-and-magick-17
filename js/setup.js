@@ -4,7 +4,6 @@
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
-
   var setup = document.querySelector('.setup');
 
   var setupWizardCoat = setup.querySelector('.wizard-coat');
@@ -29,16 +28,38 @@
   var eyesColor;
   var wizards = [];
 
+  var getRank = function (wizard) {
+    var rank = 0;
+
+    if (wizard.colorCoat === coatColor) {
+      rank += 2;
+    }
+
+    if (wizard.colorEyes === eyesColor) {
+      rank += 1;
+    }
+
+    return rank;
+  };
+
+  var compareNames = function (left, right) {
+    if (left > right) {
+      return 1;
+    } else if (left < right) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
+
   var updateWizards = function () {
-    var sortSameCoatWizards = wizards.filter(function (it) {
-      return it.colorCoat === coatColor;
-    });
-
-    var sortSameEyesWizards = wizards.filter(function (it) {
-      return it.colorEyes === eyesColor;
-    });
-
-    window.addWizardsToSimilarList(sortSameCoatWizards.concat(sortSameEyesWizards).concat(wizards));
+    window.addWizardsToSimilarList(wizards.sort(function (left, right) {
+      var rankDiff = getRank(right) - getRank(left);
+      if (rankDiff === 0) {
+        rankDiff = compareNames(left.name, right.name);
+      }
+      return rankDiff;
+    }));
   };
 
   var onCoatClick = function () {
@@ -46,7 +67,6 @@
     setFillToElementOfMage(newColor, setupWizardCoat, inputColorCoat);
     coatColor = newColor;
     updateWizards();
-    return coatColor;
   };
 
   var onEyesClick = function () {
@@ -54,7 +74,6 @@
     setFillToElementOfMage(newColor, setupWizardEyes, inputColorEyes);
     eyesColor = newColor;
     updateWizards();
-    return eyesColor;
   };
 
   var onFireballClick = function () {
