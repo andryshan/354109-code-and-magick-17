@@ -62,18 +62,30 @@
     }));
   };
 
+  var lastTimeOut;
+
   var onCoatClick = function () {
     var newColor = window.utils.getRandomItem(COAT_COLORS);
     setFillToElementOfMage(newColor, setupWizardCoat, inputColorCoat);
     coatColor = newColor;
-    updateWizards();
+    if (lastTimeOut) {
+      window.clearTimeout(lastTimeOut);
+    }
+    lastTimeOut = window.setTimeout(function () {
+      updateWizards();
+    }, 500);
   };
 
   var onEyesClick = function () {
     var newColor = window.utils.getRandomItem(EYES_COLORS);
     setFillToElementOfMage(newColor, setupWizardEyes, inputColorEyes);
     eyesColor = newColor;
-    updateWizards();
+    if (lastTimeOut) {
+      window.clearTimeout(lastTimeOut);
+    }
+    lastTimeOut = window.setTimeout(function () {
+      updateWizards();
+    }, 500);
   };
 
   var onFireballClick = function () {
